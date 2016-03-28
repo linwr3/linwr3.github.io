@@ -11,6 +11,7 @@ Beautiful Soup is a third-party Python module used to parsing the Web page. Now 
 Here are some usual basic usage.
 
 ***
+
 ##### Create an instance
 
 Import BS4 first.
@@ -47,6 +48,7 @@ soup = BeautifulSoup(open('/var/www/index.html'))
 ```
 
 ***
+
 ##### Get the specified tag
 
 formatted output
@@ -120,6 +122,7 @@ for string in soup.strings:
 ```
 
 ***
+
 ##### Node operation
 
 get parent node
@@ -152,6 +155,7 @@ p.previous_elements
 ```
 
 ***
+
 ##### find\_all
 
 ```
@@ -192,6 +196,7 @@ soup.find_all("title", recursive=False) # only find among direct children nodes
 ```
 
 ***
+
 ##### find
 
 `find` the usage is similar to find_all, while it only return one node
@@ -204,6 +209,7 @@ In addition, there are other function.
 `find_previous_siblings` & `find_previous_sibling`
 
 ***
+
 ##### CSS selector
 
 ```
@@ -216,4 +222,4 @@ soup.select('p a[href="xxx"]')
 ```
 
 ***
-All we need are ready. The [next post](2015-11-26-beginning-python-3-crawler-pixiv.md), I'll start my project.
+All we need are ready. The [next post](beginning-python-3-crawler-pixiv.md), I'll start my project.
