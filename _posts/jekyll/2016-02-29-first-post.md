@@ -22,11 +22,11 @@ ssh-keygen -t rsa -C youremail@sample.com	<!--create key with your email-->
 clip < ~/.ssh/id_rsa.pub	<!--copy your key-->
 ```
 
-3. Paste your key into your github's settings
+4\. Paste your key into your github's settings
 `Settings -> SSH keys -> new SSH key`
-4. Select an automatic page
+5\. Select an automatic page
 `settings -> Automatic page generator`
-5. Parked domains. Create a File name 'CNAME' and write down your domain name, and resolve your domain name to username.github.io.
+6\. Parked domains. Create a File name 'CNAME' and write down your domain name, and resolve your domain name to username.github.io.
 6. If you are Chinese user, and try to [run jekyll locally](http://jekyllbootstrap.com/usage/jekyll-quick-start.html#toc_6), uses this [gem](https://ruby.taobao.org/).
 
 Well, now the website is finish, and you can start to write your posts. What? There is no template you prefer, look at [here](http://jekyllthemes.org/).
