@@ -17,7 +17,7 @@ categories: python
 
 在现今的pixiv网站中要查看一个画师的作品前，必须先登陆账号。在浏览器中登陆账号会在本地保留Cookie，然后网站通过检测Cookie来判断是否登陆。所以第一步就是使用Python模拟登陆，然后保留Cookie。
 
-打开浏览器登陆pixiv账号，打开审查元素中的==Network== -&gt; ==Other==，可以看到刚才登录操作浏览器是向login.php接口发送了一个请求（具体请求的URL看General），请求头和请求内容如下图：
+打开浏览器登陆pixiv账号，打开审查元素中的`Network` -&gt; `Other`，可以看到刚才登录操作浏览器是向login.php接口发送了一个请求（具体请求的URL看General），请求头和请求内容如下图：
 
 ![login.php](../../static/img/python/pixiv_login1.png)
 
