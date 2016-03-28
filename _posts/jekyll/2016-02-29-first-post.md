@@ -11,9 +11,11 @@ I have thought about developing my own website to detail what I learn at college
 Well, it is my first post in github, hence I decided to introduced how to build such a website.
 I will write down the process in a simple way, though there is a official tutorial [Jekyll Quick Start](http://jekyllbootstrap.com/usage/jekyll-quick-start.html#toc_0).
 
-1. Create a new repository named `username.github.io`(Practice has proved, it must be ==io== instead of ==com== if the branch used is master, otherwise, the branch must be gh-pages)
-2. Install git in your laptop
-2. Create SSH key
+  1\. Create a new repository named `username.github.io`(Practice has proved, it must be ==io== instead of ==com== if the branch used is master, otherwise, the branch must be gh-pages)
+  
+  2\. Install git in your laptop
+  
+  3\. Create SSH key
 
 ```
 cd ~/.ssh#	<!--to check whether there is already a ssh key-->
@@ -22,12 +24,15 @@ ssh-keygen -t rsa -C youremail@sample.com	<!--create key with your email-->
 clip < ~/.ssh/id_rsa.pub	<!--copy your key-->
 ```
 
-4\. Paste your key into your github's settings
+  4\. Paste your key into your github's settings
 `Settings -> SSH keys -> new SSH key`
-5\. Select an automatic page
+
+  5\. Select an automatic page
 `settings -> Automatic page generator`
-6\. Parked domains. Create a File name 'CNAME' and write down your domain name, and resolve your domain name to username.github.io.
-6. If you are Chinese user, and try to [run jekyll locally](http://jekyllbootstrap.com/usage/jekyll-quick-start.html#toc_6), uses this [gem](https://ruby.taobao.org/).
+
+  6\. Parked domains. Create a File name 'CNAME' and write down your domain name, and resolve your domain name to username.github.io.
+
+  7\. If you are Chinese user, and try to [run jekyll locally](http://jekyllbootstrap.com/usage/jekyll-quick-start.html#toc_6), uses this [gem](https://ruby.taobao.org/).
 
 Well, now the website is finish, and you can start to write your posts. What? There is no template you prefer, look at [here](http://jekyllthemes.org/).
 
