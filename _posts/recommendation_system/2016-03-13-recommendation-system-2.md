@@ -21,7 +21,7 @@ Before this, we need to know these definitions.
 
 ##### Neighborhood-based
 
-Here are two primary neighborhood-based algorithms, named [**UserCF**](#usercf) and [**ItemCF**](itemcf).
+Here are two primary neighborhood-based algorithms, named [**UserCF**](#usercf) and [**ItemCF**](#itemcf).
 <a id="usercf"></a>
 
 ###### UserCF
