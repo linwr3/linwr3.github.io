@@ -23,7 +23,7 @@ categories: python
 
 ![login.php](/static/img/python/pixiv_login2.png)
 
-![login.php](../../static/img/python/pixiv_login3.png)
+![login.php](/static/img/python/pixiv_login3.png)
 
 下面是Python发送请求模拟登陆的代码：
 
@@ -48,13 +48,13 @@ def pixiv_login(my_id, my_pass):
 
 打开一个画师的作品列表，看地址栏：
 
-![download](../../static/img/python/pixiv_download1.png)
+![download](/static/img/python/pixiv_download1.png)
 
 地址是通过get请求，参数为页数，画师id来获取网页的。
 
 查看作品列表的HTML代码：
 
-![download](../../static/img/python/pixiv_download2.png)
+![download](/static/img/python/pixiv_download2.png)
 
 列表中包含了各张作品的网址链接，在BS使用中介绍过如何使用CSS筛选器筛选标签，这里不再赘述。
 
@@ -78,25 +78,25 @@ def scan_id(pid):
 
 点开一张单张作品的网页
 
-![download](../../static/img/python/pixiv_download3.png)
+![download](/static/img/python/pixiv_download3.png)
 
 有两个地址，一个是当前显示的小图，另一个是大图，大图才是我们要的url地址。
 
 接下来是漫画类型
 
-![download](../../static/img/python/pixiv_download4.png)
+![download](/static/img/python/pixiv_download4.png)
 
 找到超链接再次跳转，然后这个页面里所有img就都是我们要的
 
-![download](../../static/img/python/pixiv_download5.png)
+![download](/static/img/python/pixiv_download5.png)
 
 最后一种是动画，先打开一个动画作品
 动画的作品地址比较难找，具体地址如下：
 找到一个id=wrapper的div标签，在里面找到一个class=layout-a的div，然后在它上面有一个script脚本。pixiv上的动画就是通过这个脚本一帧帧显示出来的。里面有我们需要的地址。（这个是我个人的解析方法）
 
-![download](../../static/img/python/pixiv_download6.png)
+![download](/static/img/python/pixiv_download6.png)
 
-![download](../../static/img/python/pixiv_download7.png)
+![download](/static/img/python/pixiv_download7.png)
 
 在里面这一堆脚本中可以找到一个src，是一个zip文件，这个就是我们要下载的动图文件
 
