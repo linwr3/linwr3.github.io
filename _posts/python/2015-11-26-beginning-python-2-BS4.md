@@ -4,7 +4,7 @@ comments: false
 categories: python
 ---
 
-We know how to get a HTML document in [previous post](2015-11-26-beginning-python-1-crawler.md). Now, we need a tool to parse the HTML document.
+We know how to get a HTML document in [previous post](../beginning-python-1-crawler). Now, we need a tool to parse the HTML document.
 
 Beautiful Soup is a third-party Python module used to parsing the Web page. Now download [beautifulsoup4](http://www.crummy.com/software/BeautifulSoup/bs4/download/4.3/) first. Unzip and execute a CMD command `python setup.py install`.
 

@@ -85,4 +85,4 @@ else:
 urllib2.install_opener(opener)
 ```
 
-Now, we can get the HTML document we need, and the next step is to [parse the document](../2015-11-26-beginning-python-2-BS4).
+Now, we can get the HTML document we need, and the next step is to [parse the document](../beginning-python-2-BS4).
