@@ -22,13 +22,13 @@ Then you can keep the environment variable for 64-bit jdk.
 ***
 Now, let's install JCOP.
 
-#####Step one Installation
+##### Step one: Installation
 
 Start eclipse and click ==Help==, ==Install New Software==, ==Add==, ==archive==. And select the ==JCOP Toll==, click on ==OK== button.
 Select ==Uncategorized== and click ==Next== to start.
 Click ==OK== if the warning pop up. Select ==JCOP== if the ==Selection Needed== pop up.
 
-#####Step two Activation
+##### Step two: Activation
 
 Quit eclipse. New a file named ==com.ibm.bluez.jcop.eclipse.prefs== under your workspace `.\metadata\.plugins\org.eclipse.core.runtime\.settings`, and write down:
 
@@ -40,7 +40,7 @@ com.ibm.bluez.jcop.eclipse.views.shell.trace=true
 com.ibm.bluez.jcop.eclipse.token=23cb832f9bc9c8bffe21d53e8f02e5bc
 ```
 
-#####Step three Hello World
+##### Step three: Hello World
 
 Start eclipse. Click ==File==, ==New==, ==Others==, ==Java Card==, ==Java Card Project==, then named the first project.
 Right-click the project, and click ==Java Card Applet==, then create a package and a java class. Click ==Next== then set the package AID and applet AID, ==Finish==.
