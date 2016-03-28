@@ -18,22 +18,31 @@ Before this, we need to know these definitions.
 * [implicit feedback](https://en.wikipedia.org/wiki/Relevance_feedback#Implicit_feedback)
 
 <a id="neighbood-based"></a>
+
 ##### Neighborhood-based
 
 Here are two primary neighborhood-based algorithms, named [**UserCF**](#usercf) and [**ItemCF**](itemcf).
 <a id="usercf"></a>
+
 ###### UserCF
 This algorithm consists of two steps:
+
 1. Find the set of users whose interest is similar to the target user's
 2. Find the item that the users in the set favorite while the target user has not heard of, and then recommand it to the target user.
 
 The first step is to calculate the similarity of users' interest **w**. We consider that two similar users have similar item set that they has a positive feedback.
-![wuv](../../static/img/recommendation_system/chapter2UserCF1.png)
+
+![wuv](/static/img/recommendation_system/chapter2UserCF1.png)
+
 or
-![wuv](../../static/img/recommendation_system/chapter2UserCF2.png)
+
+![wuv](/static/img/recommendation_system/chapter2UserCF2.png)
+
 Where N(u) is the item set that user u has a positive feedback.
 Here is an example in book.
-![wuv_example](../../static/img/recommendation_system/chapter2UserCF3.png)
+
+![wuv_example](/static/img/recommendation_system/chapter2UserCF3.png)
+
 ```
 def UserSimilarity(train):
 	W = dict()
@@ -45,10 +54,15 @@ def UserSimilarity(train):
             W[u][v] /= math.sqrt(len(train[u]) * len(train[v]) * 1.0)
     return W
 ```
+
 The time complexity of this code is **`O(|U| *|U|)`**. Actually most of the time, there is no such item that both two users have positive feedback. That is, **`|N(u) ∩ N(v)| = 0`** usually.
+
 Hence, we can build the inverse table of items to users.
-![inverse table of items to users](../../static/img/recommendation_system/chapter2UserCF4.png)
+
+![inverse table of items to users](/static/img/recommendation_system/chapter2UserCF4.png)
+
 Assume user u and user v belong to the user list of K common items, then **`C[u][v] = K`**, where C is a [sparse matrix](https://en.wikipedia.org/wiki/Sparse_matrix).
+
 ```
 def UserSimilarity(train):
 	# build inverse table for item_users
@@ -77,8 +91,11 @@ def UserSimilarity(train):
         	W[u][v] = cuv / math.sqrt(N[u] * N[v])
     return W
 ```
+
 An improved algorithm **User-IIF**: Because there are some item popular that most user will have positive feedback, which can not reflect the similarity, User-IIF is put forward. In this method, it is considered that the unpopular items is better to reflect the similarity of two users. The improved formula of similarity is as follows:
-![wuv](../../static/img/recommendation_system/chapter2UserCF5.png)
+
+![wuv](/static/img/recommendation_system/chapter2UserCF5.png)
+
 ```
 def UserSimilarity(train):
 	# build inverse table for item_users
@@ -107,9 +124,13 @@ def UserSimilarity(train):
         	W[u][v] = cuv / math.sqrt(N[u] * N[v])
     return W
 ```
+
 It is the second step now. In UserCF, it will return the items that the K most similar users favorite to the target user. The following formula will measure the degree of the target user's interest in items.
-![pui](../../static/img/recommendation_system/chapter2UserCF6.png)
+
+![pui](/static/img/recommendation_system/chapter2UserCF6.png)
+
 Where r<sub>vi</sub> means user v is interested in item i( *r<sub>vi</sub> is always 1* ), and w<sub>uv</sub> means the similarity between user u and user v.
+
 ```
 def Recommend(user, train, W):
 	rank = dict()
@@ -122,17 +143,26 @@ def Recommend(user, train, W):
             rank[i] += wuv * rvi
     return rank
 ```
+
 <a id="itemcf"></a>
+
 ###### ItemCF
+
 It is similar to UserCF, there are two steps mainly:
+
 1. Find the set of items which are similar to the target item.
 2. According to the similarity of items and the behavior of users, build commendation lists.
 
 The first step is to calculate the similarity of items **w**.
-![wij](../../static/img/recommendation_system/chapter2ItemCF1.png)
+
+![wij](/static/img/recommendation_system/chapter2ItemCF1.png)
+
 or
-![wij](../../static/img/recommendation_system/chapter2ItemCF2.png)
+
+![wij](/static/img/recommendation_system/chapter2ItemCF2.png)
+
 Where |N(i)| means the number of users who is interested in item i.
+
 ```
 def ItemSimilarity(train):
 	# calculate co-rated users between items
@@ -155,10 +185,13 @@ def ItemSimilarity(train):
 ```
 
 Here is one improved algorithm because there are some popular items that the vast majority of people are interested in them. We know, in ItemCF, the similarity w is:
-![wij](../../static/img/recommendation_system/chapter2ItemCF2.png), then if j is popular item, **`|N(i) ∩ N(j)| ≈ |N(i)|`**. Hence, it's put forward that w should be ![wij](../../static/img/recommendation_system/chapter2ItemCF6.png), where α∈[0.5, 1].
+
+![wij](/static/img/recommendation_system/chapter2ItemCF2.png), then if j is popular item, **`|N(i) ∩ N(j)| ≈ |N(i)|`**. Hence, it's put forward that w should be ![wij](/static/img/recommendation_system/chapter2ItemCF6.png), where α∈[0.5, 1].
 
 Of course, there is another improved algorithm like User-IIF for ItemCF, called **ItemCF-IUF**(*Inverse User Frequence*): Because there are some users are very active which is interested in most items. In IUF, it is considered that these active users contribute less similarity than inactive users.
-![wij](../../static/img/recommendation_system/chapter2ItemCF3.png)
+
+![wij](/static/img/recommendation_system/chapter2ItemCF3.png)
+
 ```
 def ItemSimilarity(train):
 	# calculate co-rated users between items
@@ -179,11 +212,17 @@ def ItemSimilarity(train):
         	W[i][j] = cij / math.sqrt(N[i] * N[j])
     return W
 ```
+
 **ItemCF-Norm**: The study found that it is better if normalize w, because sometimes the w differ greatly between different type.
-![wij](../../static/img/recommendation_system/chapter2ItemCF4.png)
+
+![wij](/static/img/recommendation_system/chapter2ItemCF4.png)
+
 The second step is to find out K similar items and recommend to target user. Here is the formula to calculate target user's interest in item j:
-![puj](../../static/img/recommendation_system/chapter2ItemCF5.png)
+
+![puj](/static/img/recommendation_system/chapter2ItemCF5.png)
+
 Where N(u) is the set of u's favorite items, and S(j, K) is the set of the items which are K the most similar to item j.
+
 ```
 def Recommendation(train, user_id, W, K):
 	rank = dict()
@@ -196,12 +235,19 @@ def Recommendation(train, user_id, W, K):
             rank[j].reason[i] = pi * wj
     return rank
 ```
+
 <a id="lfm"></a>
+
 ##### Latent Factor Model
+
 Ususally two popular item have high simularity, because most users have behavior with them. In such cases, the recommendation system could not be based on users' behavior.
 LFM is a method based on machine learning, which has better theory basis. In LFM, the formula to calculate the user u's preference to item i is defined as:
-![pui](../../static/img/recommendation_system/chapter2LFM1.png)
+
+![pui](/static/img/recommendation_system/chapter2LFM1.png)
+
 p<sub>u,k</sub> measures the relationship between user u's interest and the kth implicit class, and q<sub>i,k</sub> measures the relationship between the kth implicit class and item i.
 
 <a id="random_walk_on_graph"></a>
+
 ##### Random Walk on Graph
+
