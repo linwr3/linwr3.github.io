@@ -240,14 +240,103 @@ def Recommendation(train, user_id, W, K):
 
 ##### Latent Factor Model
 
-Ususally two popular item have high simularity, because most users have behavior with them. In such cases, the recommendation system could not be based on users' behavior.
+Ususally two popular item have high simularity, because most users have behavior with them. In such cases, the recommendation system could not be based on only users' behavior.
 LFM is a method based on machine learning, which has better theory basis. In LFM, the formula to calculate the user u's preference to item i is defined as:
 
 ![pui](/static/img/recommendation_system/chapter2LFM1.png)
 
 p<sub>u,k</sub> measures the relationship between user u's interest and the kth implicit class, and q<sub>i,k</sub> measures the relationship between the kth implicit class and item i.
 
+Then, how to get the p<sub>u,k</sub> and q<sub>i,k</sub>.
+
+Here define a loss function C.
+
+![C](/static/img/recommendation_system/chapter2LFM2.png)
+
+where ![regular term](/static/img/recommendation_system/chapter2LFM3.png) are the regular term and K is the total number of implicit class. To minimize C, find out the optimal p<sub>u,k</sub> and q<sub>i,k</sub> by using stochastic gradient descent method:
+
+![C](/static/img/recommendation_system/chapter2LFM4.png) \-&gt; ![C](/static/img/recommendation_system/chapter2LFM5.png)
+
+where α is learning rate, obtained by numerous experiments.
+
+```
+def RandomSelectNegativeSample(self, items):
+	# items: a set of items that the user has behavior with
+	ret = dict()
+    for i in items.keys():
+    	ret[i] = 1
+    n = 0
+    # generate negative samples which are popular while the user doesn't have behavior
+    for i in range(0, len(items) * 3):
+    # len*3: to make sure the amount of positive and negative sample is similar
+    	item = item_pool[random.randint(0, len(items_pools) - 1)]
+        # in item_pool, the times a item shown is proportional to its popularity
+        if item in ret:
+        	continue
+        ret[item] = 0
+        n += 1
+        if n > len(items):
+        	break
+    return ret
+
+def LatentFactorModel(user_items, F, N, alpha, lambda):
+	# F: the number of implicit class
+    # alpha: the learning rate
+    # lambda: the parameter of regular term
+	[P, Q] = InitModel(user_items, F)
+    for step in range(0, N):
+    	for user, items in user_items.items():
+        	samples = RandSelectNegativeSamples(items)
+            for item, rui in samples.items():
+            	eui = rui - Predict(user, item)
+                for f in range(0, F):
+                	P[user][f] += alpha * (eui * Q[item][f] - lambda * P[user][f])
+                    Q[item][f] += alpha * (eui * P[user][f] - lambda * Q[item][f])
+        alpha *= 0.9
+
+def Recommend(user, P, Q):
+	rank = dict()
+    for f, puf in P[user].items():
+    	for i, qfi in Q[f].items():
+        	if i not rank:
+            	rank[i] += puf * qfi
+    return rank
+```
+
 <a id="random_walk_on_graph"></a>
 
 ##### Random Walk on Graph
 
+Graph-based model is important content of recommended system. Actually, always neighborhood-based model also called graph-based model.
+
+Here bipartite graph G(V, E) is used to represent users' behavior data, where V represents the vertexs of users and items, and E represents the edge between users and items.
+
+![GVE](/static/img/recommendation_system/chapter2rwg1.png)
+
+There is a graph algorithm called Personal Rank.
+
+Suppose to give the user u personalized recommendation, then it can random walk start from the vertex corresponding to user u. According to the probability α to decide whether continue to walk or stopped to restart from the beginning vertex. If continue, select one vertex randomly that the current vertex connects to as the next vertex. After a number of random walk, the probability of each item vertex passed through will converge to a exact number.
+
+![PR](/static/img/recommendation_system/chapter2rwg2.png)
+
+```
+def PersonalRank(G, alpha, root):
+	rank = dict()
+    rank = {x:0 for x in G.keys()}
+    rank[root] = 1
+    for k in range(20):
+    	tmp = {x:0 for x in G.keys()}
+        for i, ri in G.items():
+        	for j, wij in ri.items():
+            	if j not in tmp:
+                	tmp[j] = 0
+                tmp[j] += alpha * rank[i] / (1.0 * len(ri))
+                if j == root:
+                	tmp[j] += 1 - alpha
+        rank = tmp
+    return rank
+```
+
+This method has high time complexity, one of the solutions is theory of matrices.
+
+Assume M is a matrix of PR, then ![PR](/static/img/recommendation_system/chapter2rwg3.png). So the formula above can be converted to ![r](/static/img/recommendation_system/chapter2rwg4.png) then ![r](/static/img/recommendation_system/chapter2rwg5.png).
